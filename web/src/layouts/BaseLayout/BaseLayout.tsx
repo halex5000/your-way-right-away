@@ -1,85 +1,68 @@
-import React, { useState } from 'react'
-
 import {
-  HomeOutlined as Home,
-  RocketOutlined as About,
-  DashboardOutlined as Dashboard,
+  HomeOutlined as HomeIcon,
+  RocketOutlined as AboutIcon,
+  DashboardOutlined as DashboardIcon,
 } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
-import type { MenuProps } from 'antd'
-import { Header, Content, Footer } from 'antd/es/layout/layout'
+import { Col, Layout, Menu, Row, Space } from 'antd'
+import { Typography } from 'antd'
+import { Content, Footer, Header } from 'antd/es/layout/layout'
 import Sider from 'antd/es/layout/Sider'
-import Typography from 'antd/es/typography'
+import MenuItem from 'antd/es/menu/MenuItem'
 
 import { Link, routes } from '@redwoodjs/router'
 
-type MenuItem = Required<MenuProps>['items'][number]
-
-const { Title } = Typography
-
-function createMenuItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group'
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem
+type BaseLayoutProps = {
+  children?: React.ReactNode
 }
 
-const items: MenuItem[] = [
-  createMenuItem(<Link to={routes.home()}>Home</Link>, 'home', <Home />),
-  createMenuItem(<Link to={routes.about()}>About</Link>, 'about', <About />),
-  createMenuItem(
-    <Link to={routes.dashboardBuilder()}>Dashboard Builder</Link>,
-    'dashboard',
-    <Dashboard />
-  ),
-]
+const { Text } = Typography
 
-const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false)
-  const [current, setCurrent] = useState('home')
-
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e)
-    setCurrent(e.key)
-  }
-
+const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
-    <>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Header
-          style={{
-            padding: '10px',
-            margin: '1px',
-          }}
-        >
-          <Title style={{ textAlign: 'center' }}>Dark Launch Your Way</Title>
-        </Header>
-        <Layout>
-          <Sider style={{ padding: '10px' }} width={'15%'}>
-            <Menu
-              onClick={onClick}
-              selectedKeys={[current]}
-              mode="inline"
-              theme="dark"
-              inlineCollapsed={collapsed}
-              items={items}
-            />
-          </Sider>
-          <Content>Content</Content>
-        </Layout>
-        <Footer style={{ textAlign: 'center' }}>An M&A Creation</Footer>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header style={{ minWidth: '100vw' }}>
+        <h1>LaunchDarkly Data Dashboard</h1>
+      </Header>
+      <Layout>
+        <Sider>
+          <Menu>
+            <MenuItem icon={<DashboardIcon />}>
+              <Link to={routes.dashboardBuilder()}>Dashboard Builder</Link>
+            </MenuItem>
+            <MenuItem icon={<HomeIcon />}>
+              <Link to={routes.home()}>Home</Link>
+            </MenuItem>
+          </Menu>
+        </Sider>
+        <Content>
+          <Layout>
+            <Content>
+              <Row>
+                <Col span={12} offset={6} style={{ textAlign: 'center' }}>
+                  <main>{children}</main>
+                </Col>
+              </Row>
+            </Content>
+          </Layout>
+        </Content>
       </Layout>
-    </>
+      <Footer>
+        <Row>
+          <Col span={2}>
+            <Link to={routes.about()}>
+              <Space size={8}>
+                <AboutIcon />
+                <Text>About</Text>
+              </Space>
+            </Link>
+          </Col>
+          <Col span={10} offset={10}>
+            <Text>An M&A Creation</Text>
+          </Col>
+        </Row>
+      </Footer>
+    </Layout>
   )
 }
 
-export default App
+export default BaseLayout
