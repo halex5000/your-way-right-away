@@ -7,6 +7,8 @@ import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
 import 'antd/dist/reset.css'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 import './index.css'
 
 const App = () => (

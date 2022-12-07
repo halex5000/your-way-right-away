@@ -34,11 +34,11 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
             </MenuItem>
           </Menu>
         </Sider>
-        <Content>
+        <Content style={{ width: '100%' }}>
           <Layout>
             <Content>
               <Row>
-                <Col span={12} offset={6} style={{ textAlign: 'center' }}>
+                <Col span={12}>
                   <main>{children}</main>
                 </Col>
               </Row>
