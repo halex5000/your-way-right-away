@@ -23,6 +23,7 @@
   },
   "packageManager": "yarn@3.2.4",
   "dependencies": {
+    "@ant-design/icons": "^4.8.0",
     "antd": "^5.0.4"
   }
 }

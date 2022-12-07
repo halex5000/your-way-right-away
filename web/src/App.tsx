@@ -1,3 +1,5 @@
+import { ConfigProvider, theme } from 'antd'
+
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
@@ -11,7 +13,9 @@ const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <RedwoodApolloProvider>
-        <Routes />
+        <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+          <Routes />
+        </ConfigProvider>
       </RedwoodApolloProvider>
     </RedwoodProvider>
   </FatalErrorBoundary>
