@@ -23,8 +23,13 @@
   },
   "packageManager": "yarn@3.2.4",
   "dependencies": {
-    "@ant-design/icons": "^4.8.0",
-    "antd": "^5.0.4",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/material": "^5.10.17",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-grid-layout": "^1.3.4"
   }
 }

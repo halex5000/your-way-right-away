@@ -1,12 +1,13 @@
-import { ConfigProvider, theme } from 'antd'
-
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
-import 'antd/dist/reset.css'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import './index.css'
@@ -15,9 +16,7 @@ const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <RedwoodApolloProvider>
-        <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
-          <Routes />
-        </ConfigProvider>
+        <Routes />
       </RedwoodApolloProvider>
     </RedwoodProvider>
   </FatalErrorBoundary>
