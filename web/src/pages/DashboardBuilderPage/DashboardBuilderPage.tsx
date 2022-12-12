@@ -15,6 +15,8 @@ import GridLayout, {
 
 import { MetaTags } from '@redwoodjs/web'
 
+import WidgetInput from 'src/components/WidgetInput/WidgetInput'
+
 type CardInfo = {
   name: string
   title: string
@@ -30,19 +32,34 @@ type LayoutInfo = {
 }
 
 const DashboardBuilderPage = () => {
-  const [layouts, setLayouts] = useState<LayoutInfo[]>([
-    { i: 'a', x: 50, y: 20, w: 10, h: 2 },
-  ])
+  const [layouts, setLayouts] = useState<LayoutInfo[]>([])
 
   const [cards, setCards] = useState<CardInfo[]>([])
 
-  const addCard = () => {}
+  const addCard = () => {
+    setCards([
+      ...cards,
+      {
+        name: 'flagvalues',
+        title: 'Flag Values',
+        content: 'Hello, I am a very good component',
+      },
+    ])
+    setLayouts([{ i: 'flagvalues', x: 50, y: 20, w: 10, h: 2 }])
+  }
+
+  const [widgetDrawerOpen, setWidgetDrawerOpen] = useState(false)
+
+  const toggleWidgetDrawer = () => {
+    setWidgetDrawerOpen(!widgetDrawerOpen)
+  }
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+      <WidgetInput open={widgetDrawerOpen} toggleDrawer={toggleWidgetDrawer} />
       <MetaTags title="DashboardBuilder" description="DashboardBuilder page" />
       <Toolbar sx={{ mt: 5 }}>
-        <Button variant="contained" onClick={addCard}>
+        <Button variant="contained" onClick={toggleWidgetDrawer}>
           Add Widget
         </Button>
       </Toolbar>
