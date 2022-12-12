@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import DashboardBuilderPage from './DashboardBuilderPage'
+import DashboardPage from './DashboardPage'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //   https://redwoodjs.com/docs/testing#testing-pages-layouts
 
-describe('DashboardBuilderPage', () => {
+describe('DashboardPage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<DashboardBuilderPage />)
+      render(<DashboardPage />)
     }).not.toThrow()
   })
 })
