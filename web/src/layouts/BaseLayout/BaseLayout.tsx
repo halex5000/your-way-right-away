@@ -159,7 +159,7 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
             <Divider />
             <List>
               {[
-                { name: 'Dashboard', selected: true },
+                { name: 'Dashboards', selected: true },
                 { name: 'Feature Flags', selected: false },
                 { name: 'Users', selected: false },
                 { name: 'Segments', selected: false },
