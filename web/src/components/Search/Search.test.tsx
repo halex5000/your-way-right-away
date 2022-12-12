@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import WidgetInput from './WidgetInput'
+import Search from './Search'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('WidgetInput', () => {
+describe('Search', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<WidgetInput />)
+      render(<Search />)
     }).not.toThrow()
   })
 })

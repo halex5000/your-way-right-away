@@ -4,8 +4,8 @@
 // ```tsx
 // import type { ComponentStory } from '@storybook/react'
 //
-// export const generated: ComponentStory<typeof WidgetInput> = (args) => {
-//   return <WidgetInput {...args} />
+// export const generated: ComponentStory<typeof Search> = (args) => {
+//   return <Search {...args} />
 // }
 // ```
 //
@@ -13,13 +13,13 @@
 
 import type { ComponentMeta } from '@storybook/react'
 
-import WidgetInput from './WidgetInput'
+import Search from './Search'
 
 export const generated = () => {
-  return <WidgetInput />
+  return <Search />
 }
 
 export default {
-  title: 'Components/WidgetInput',
-  component: WidgetInput,
-} as ComponentMeta<typeof WidgetInput>
+  title: 'Components/Search',
+  component: Search,
+} as ComponentMeta<typeof Search>

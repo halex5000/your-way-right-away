@@ -1,33 +1,19 @@
 import { useState } from 'react'
 
-import SearchIcon from '@mui/icons-material/Search'
 import {
-  Card,
   Box,
-  Toolbar,
-  CardHeader,
-  CardContent,
   Button,
-  AppBar,
   Typography,
   createTheme,
   ThemeProvider,
-  alpha,
-  InputBase,
-  styled,
   Grid,
-  TextField,
-  InputAdornment,
   MenuItem,
   Select,
-  FormControl,
-  InputLabel,
 } from '@mui/material'
-import { Responsive as ResponsiveGridLayout } from 'react-grid-layout'
 
 import { MetaTags } from '@redwoodjs/web'
 
-import WidgetInput from 'src/components/WidgetInput/WidgetInput'
+import Search from 'src/components/Search/Search'
 
 type CardInfo = {
   name: string
@@ -42,27 +28,6 @@ type LayoutInfo = {
   w: number
   h: number
 }
-
-const Search = ({ placeholder }) => (
-  <SearchInput placeholder={placeholder} adornment={<SearchAdornment />} />
-)
-const SearchAdornment = () => {
-  return (
-    <InputAdornment position="start">
-      <SearchIcon />
-    </InputAdornment>
-  )
-}
-
-const SearchInput = ({ placeholder, adornment }) => (
-  <TextField
-    sx={{ float: 'left' }}
-    size="small"
-    fullWidth
-    placeholder={placeholder}
-    InputProps={{ startAdornment: adornment }}
-  />
-)
 
 const DashboardBuilderPage = () => {
   const [layouts, setLayouts] = useState<LayoutInfo[]>([])
