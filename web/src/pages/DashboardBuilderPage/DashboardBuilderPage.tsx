@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardContent,
   Button,
+  Paper,
 } from '@mui/material'
 import GridLayout, {
   Responsive as ResponsiveGridLayout,
@@ -55,7 +56,10 @@ const DashboardBuilderPage = () => {
   }
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+    <Box
+      component="main"
+      sx={{ p: 2, backgroundColor: '#e6e6e6', height: '100%', display: 'flex' }}
+    >
       <WidgetInput open={widgetDrawerOpen} toggleDrawer={toggleWidgetDrawer} />
       <MetaTags title="DashboardBuilder" description="DashboardBuilder page" />
       <Toolbar sx={{ mt: 5 }}>

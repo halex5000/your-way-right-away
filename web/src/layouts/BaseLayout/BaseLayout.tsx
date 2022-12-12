@@ -17,6 +17,10 @@ import {
   ListItemButton,
   ListItemText,
   Grid,
+  CardHeader,
+  CardContent,
+  Card,
+  Typography,
 } from '@mui/material'
 import { styled, alpha } from '@mui/material/styles'
 import Image from 'mui-image'
@@ -24,6 +28,8 @@ import Image from 'mui-image'
 type BaseLayoutProps = {
   children?: React.ReactNode
 }
+
+const drawerWidth = 240
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -80,14 +86,15 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          display: 'flex',
           minHeight: '100vh',
+          display: 'flex',
         }}
       >
         <AppBar
           position="fixed"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
+            ml: { sm: `${drawerWidth}px` },
             backgroundColor: 'black',
           }}
         >
@@ -125,29 +132,46 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
         <Drawer
           variant="permanent"
           sx={{
-            width: 240,
+            width: drawerWidth,
             flexShrink: 0,
-            boxSizing: 'border-box',
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
           }}
         >
-          <Toolbar />
-          <Box sx={{ overflow: 'auto' }}>
+          <Box
+            sx={{
+              width: `${drawerWidth}px`,
+              mt: 5,
+            }}
+          >
+            <Box>
+              <Card sx={{ backgroundColor: '#34ebe1', color: 'black' }}>
+                <CardContent>
+                  <Typography sx={{ fontSize: 14, pb: 1, pt: 1 }}>
+                    Umbrella Corp
+                  </Typography>
+                  <Typography variant="body1">Production</Typography>
+                </CardContent>
+              </Card>
+            </Box>
             <Divider />
             <List>
               {[
-                'Dashboard',
-                'Feature Flags',
-                'Users',
-                'Segments',
-                'Experiments',
-                'Debugger',
-                'Audit Log',
-                'Integrations',
-                'Account Settings',
-              ].map((text) => (
-                <ListItem key={text} disablePadding>
+                { name: 'Dashboard', selected: true },
+                { name: 'Feature Flags', selected: false },
+                { name: 'Users', selected: false },
+                { name: 'Segments', selected: false },
+                { name: 'Experiments', selected: false },
+                { name: 'Debugger', selected: false },
+                { name: 'Audit Log', selected: false },
+                { name: 'Integrations', selected: false },
+                { name: 'Account Settings', selected: false },
+              ].map(({ name, selected }) => (
+                <ListItem key={name} disablePadding selected={selected}>
                   <ListItemButton>
-                    <ListItemText primary={text} />
+                    <ListItemText primary={name} />
                   </ListItemButton>
                 </ListItem>
               ))}
