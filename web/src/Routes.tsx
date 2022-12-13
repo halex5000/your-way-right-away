@@ -16,6 +16,7 @@ const Routes = () => {
     <Router>
       <Set wrap={BaseLayout}>
         <Route path="/dashboards/{id:String}" page={DashboardPage} name="dashboard" />
+        <Route path="/feature-flags" page={FeatureFlagsPage} name="featureFlags" />
         <Route path="/" page={DashboardListPage} name="dashboardlist" />
       </Set>
       <Route notfound page={NotFoundPage} />

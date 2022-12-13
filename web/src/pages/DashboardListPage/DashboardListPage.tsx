@@ -36,7 +36,7 @@ const DashboardListHeader = () => {
       <MetaTags title="DashboardListPage" description="DashboardList page" />
 
       <Box sx={{ backgroundColor: 'white', height: 80, width: '100%', p: 2 }}>
-        <Typography variant="h4">Dashboards</Typography>
+        <Typography variant="h5">Dashboards</Typography>
         <Typography>
           Use this page to see all your dashboards, create new ones, and manage
           existing dashboards

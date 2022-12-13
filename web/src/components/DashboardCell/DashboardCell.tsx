@@ -1,10 +1,12 @@
-import { Box, Typography } from '@mui/material'
+import { Box, createTheme, ThemeProvider, Typography } from '@mui/material'
 import type {
   FindDashboardQuery,
   FindDashboardQueryVariables,
 } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+
+import DashboardsCell from '../DashboardsCell'
 
 export const QUERY = gql`
   query FindDashboardQuery($id: String!) {
@@ -29,9 +31,28 @@ export const Failure = ({
 export const Success = ({
   dashboard,
 }: CellSuccessProps<FindDashboardQuery, FindDashboardQueryVariables>) => {
+  const theme = createTheme({
+    palette: {
+      mode: 'light',
+      primary: {
+        main: '#405BFF',
+      },
+    },
+  })
+
   return (
-    <Box>
-      <Typography>This is where we have some real work to do</Typography>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box
+        component="main"
+        sx={{
+          paddingTop: 10,
+          backgroundColor: '#e6e6e6',
+          minHeight: '100%',
+          width: '100%',
+        }}
+      >
+        {JSON.stringify(dashboard)}
+      </Box>
+    </ThemeProvider>
   )
 }

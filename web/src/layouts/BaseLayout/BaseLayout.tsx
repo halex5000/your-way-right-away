@@ -2,7 +2,6 @@ import AppsIcon from '@mui/icons-material/Apps'
 import HelpIcon from '@mui/icons-material/Help'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import PersonIcon from '@mui/icons-material/Person'
-import SearchIcon from '@mui/icons-material/Search'
 import {
   Box,
   ThemeProvider,
@@ -11,18 +10,15 @@ import {
   Toolbar,
   Drawer,
   Divider,
-  InputBase,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   Grid,
-  CardHeader,
   CardContent,
   Card,
   Typography,
 } from '@mui/material'
-import { styled, alpha } from '@mui/material/styles'
 import Image from 'mui-image'
 
 import Search from 'src/components/Search/Search'
@@ -62,17 +58,17 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
         >
           <Toolbar variant="dense">
             <Grid container>
-              <Grid xs={5}>
+              <Grid item xs={5}>
                 <Image
                   src="primary-lockup-white.png"
                   fit="contain"
                   width={150}
                 />
               </Grid>
-              <Grid xs={4}>
+              <Grid item xs={4}>
                 <Search placeholder="Search…"></Search>
               </Grid>
-              <Grid xs={3}>
+              <Grid item xs={3}>
                 <Box sx={{ float: 'right' }}>
                   <NotificationsIcon sx={{ p: '6px' }} />
                   <HelpIcon sx={{ p: '6px' }} />
