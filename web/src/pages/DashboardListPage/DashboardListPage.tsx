@@ -110,6 +110,10 @@ const DashboardListPage = () => {
     console.log('setting dashboard drawer open to ', dashboardDrawerOpen)
   }
 
+  const onSaveHandler = () => {
+    toggleDashboardDrawer()
+  }
+
   const theme = createTheme({
     palette: {
       mode: 'light',
@@ -144,7 +148,10 @@ const DashboardListPage = () => {
             },
           }}
         >
-          <DashboardForm />
+          <DashboardForm
+            onCancelHandler={toggleDashboardDrawer}
+            onSaveHandler={onSaveHandler}
+          />
         </Drawer>
         <DashboardListHeader createDashboardHandler={toggleDashboardDrawer} />
         <DashboardsCell />
