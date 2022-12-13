@@ -48,15 +48,22 @@ const buildFilter = ({
 }): string => {
   console.log('building filter ')
 
-  if (evaluatedAfter) {
+  if (evaluatedAfter || environment || type || status) {
     let filter = '?filter='
 
     if (evaluatedAfter) {
-      filter = filter + `evaluated:{"after":${evaluatedAfter}},filterEnv:demo-1`
+      filter =
+        filter +
+        `evaluated:{"after":${evaluatedAfter}},filterEnv:${environment}`
     }
-    // if (status) {
 
+    // if (status) {
+    //   filter = filter + `status:${status}`
     // }
+
+    if (type) {
+      filter = filter + `&type:${type}`
+    }
 
     return filter
   }

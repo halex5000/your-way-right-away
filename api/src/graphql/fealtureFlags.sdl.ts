@@ -43,9 +43,6 @@ export const schema = gql`
     description: String!
     key: String!
     creationDate: BigInt!
-    status: String!
-    archived: Boolean!
-    type: String!
     environments: [Environment]!
   }
 

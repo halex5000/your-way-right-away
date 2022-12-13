@@ -9,10 +9,12 @@ import {
   Grid,
   MenuItem,
   Select,
+  Drawer,
 } from '@mui/material'
 
 import { MetaTags } from '@redwoodjs/web'
 
+import DashboardForm from 'src/components/DashboardForm/DashboardForm'
 import DashboardsCell from 'src/components/DashboardsCell'
 import Search from 'src/components/Search/Search'
 
@@ -30,7 +32,7 @@ type LayoutInfo = {
   h: number
 }
 
-const DashboardListHeader = () => {
+const DashboardListHeader = ({ createDashboardHandler }) => {
   return (
     <>
       <MetaTags title="DashboardListPage" description="DashboardList page" />
@@ -69,7 +71,11 @@ const DashboardListHeader = () => {
               </Select>
             </Grid>
             <Grid item xs={3} margin={2}>
-              <Button sx={{ float: 'right' }} variant="contained">
+              <Button
+                sx={{ float: 'right' }}
+                variant="contained"
+                onClick={createDashboardHandler}
+              >
                 Create Dashboard
               </Button>
             </Grid>
@@ -97,10 +103,11 @@ const DashboardListPage = () => {
     setLayouts([{ i: 'flagvalues', x: 50, y: 20, w: 10, h: 2 }])
   }
 
-  const [widgetDrawerOpen, setWidgetDrawerOpen] = useState(false)
+  const [dashboardDrawerOpen, setDashboardDrawerOpen] = useState(false)
 
-  const toggleWidgetDrawer = () => {
-    setWidgetDrawerOpen(!widgetDrawerOpen)
+  const toggleDashboardDrawer = () => {
+    setDashboardDrawerOpen(!dashboardDrawerOpen)
+    console.log('setting dashboard drawer open to ', dashboardDrawerOpen)
   }
 
   const theme = createTheme({
@@ -123,7 +130,23 @@ const DashboardListPage = () => {
           width: '100%',
         }}
       >
-        <DashboardListHeader />
+        <Drawer
+          variant="temporary"
+          open={dashboardDrawerOpen}
+          anchor="right"
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            width: 300,
+            mt: 10,
+            [`& .MuiDrawer-paper`]: {
+              width: 300,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <DashboardForm />
+        </Drawer>
+        <DashboardListHeader createDashboardHandler={toggleDashboardDrawer} />
         <DashboardsCell />
       </Box>
     </ThemeProvider>
