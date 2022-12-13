@@ -1,30 +1,97 @@
 import axios from 'axios'
-import type { QueryResolvers } from 'types/graphql'
+import type { FeatureFlag, QueryResolvers } from 'types/graphql'
+
+type LaunchDarklyProps = {
+  projectKey: string
+  filter: string
+}
 
 type Props = {
   projectKey: string
   status?: string
-  hasExperiment: boolean
+  hasExperiment?: boolean
+  environment?: string
+  evaluatedAfter: number
+  archived: boolean
+  type: string
+  compare: boolean
 }
+
+const callLaunchDarkly = async ({ projectKey, filter }: LaunchDarklyProps) => {
+  const baseEarl = `${process.env.LAUNCH_DARKLY_API_URL}/flags/${projectKey}`
+  const earl = filter ? `${baseEarl}${filter}` : `${baseEarl}`
+
+  try {
+    const result = await axios(`${earl}`, {
+      method: 'GET',
+      headers: {
+        Authorization: process.env.LAUNCH_DARKLY_API_KEY,
+      },
+    })
+    const { data } = result
+    console.log('data received')
+    return data.items
+  } catch (error) {
+    console.log(error)
+  }
+  return []
+}
+
+const buildFilter = ({
+  status,
+  hasExperiment,
+  environment,
+  evaluatedAfter,
+  archived,
+  type,
+  compare,
+}): string => {
+  console.log('building filter ')
+
+  if (evaluatedAfter) {
+    let filter = '?filter='
+
+    if (evaluatedAfter) {
+      filter = filter + `evaluated:{"after":${evaluatedAfter}},filterEnv:demo-1`
+    }
+    // if (status) {
+
+    // }
+
+    return filter
+  }
+  return ''
+}
+
+// const postQueryFilter = ({}): FeatureFlag[] => {}
 
 const getFeatureFlags = async ({
   projectKey,
   status,
   hasExperiment,
+  environment,
+  evaluatedAfter,
+  archived,
+  type,
+  compare,
 }: Props) => {
+  console.log(' calling build filter')
+  const filter = buildFilter({
+    status,
+    hasExperiment,
+    environment,
+    evaluatedAfter,
+    archived,
+    type,
+    compare,
+  })
+
+  console.log('filter is', filter)
+
   try {
-    const result = await axios(
-      `${process.env.LAUNCH_DARKLY_API_URL}/flags/${projectKey}?filter=hasExperiment:${hasExperiment}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: process.env.LAUNCH_DARKLY_API_KEY,
-        },
-      }
-    )
-    const { data } = result
+    const featureFlags = await callLaunchDarkly({ projectKey, filter })
     console.log('data received')
-    return data.items
+    return featureFlags
   } catch (error) {
     console.log(error)
   }
@@ -35,11 +102,23 @@ export const featureFlags: QueryResolvers['featureFlags'] = async ({
   projectKey,
   status,
   hasExperiment,
+  environment,
+  evaluatedAfter,
+  archived,
+  type,
+  compare,
 }: Props) => {
-  const flags = await getFeatureFlags({ projectKey, status, hasExperiment })
-  console.log('flags', flags)
-  if (flags) return flags
-  return []
+  const flags = await getFeatureFlags({
+    projectKey,
+    status,
+    hasExperiment,
+    environment,
+    evaluatedAfter,
+    archived,
+    type,
+    compare,
+  })
+  return flags
 }
 
 export const featureFlag: QueryResolvers['featureFlag'] = ({ key }) => {
