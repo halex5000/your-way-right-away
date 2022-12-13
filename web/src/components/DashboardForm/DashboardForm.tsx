@@ -8,6 +8,7 @@ import {
   FormHelperText,
   Input,
   InputLabel,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material'
@@ -60,10 +61,12 @@ const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
       <FormControl margin="normal" fullWidth sx={{ mb: 2 }}>
         <TextField label="Dashboard Key" disabled value={dashboardKey} />
       </FormControl>
-      <ButtonGroup size="medium" fullWidth>
+      <Stack spacing={1} direction="row" sx={{ justifyContent: 'center' }}>
         <Button
           variant="contained"
           color="primary"
+          size="large"
+          fullWidth
           onClick={() => {
             createDashboard({
               variables: {
@@ -78,10 +81,15 @@ const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
         >
           Save
         </Button>
-        <Button variant="contained" color="error" onClick={onCancelHandler}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="error"
+          onClick={onCancelHandler}
+        >
           Cancel
         </Button>
-      </ButtonGroup>
+      </Stack>
     </Box>
   )
 }

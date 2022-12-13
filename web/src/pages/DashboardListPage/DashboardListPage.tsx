@@ -18,20 +18,6 @@ import DashboardForm from 'src/components/DashboardForm/DashboardForm'
 import DashboardsCell from 'src/components/DashboardsCell'
 import Search from 'src/components/Search/Search'
 
-type CardInfo = {
-  name: string
-  title: string
-  content: string
-}
-
-type LayoutInfo = {
-  i: string
-  x: number
-  y: number
-  w: number
-  h: number
-}
-
 const DashboardListHeader = ({ createDashboardHandler }) => {
   return (
     <>
@@ -87,21 +73,7 @@ const DashboardListHeader = ({ createDashboardHandler }) => {
 }
 
 const DashboardListPage = () => {
-  const [layouts, setLayouts] = useState<LayoutInfo[]>([])
 
-  const [cards, setCards] = useState<CardInfo[]>([])
-
-  const addCard = () => {
-    setCards([
-      ...cards,
-      {
-        name: 'flagvalues',
-        title: 'Flag Values',
-        content: 'Hello, I am a very good component',
-      },
-    ])
-    setLayouts([{ i: 'flagvalues', x: 50, y: 20, w: 10, h: 2 }])
-  }
 
   const [dashboardDrawerOpen, setDashboardDrawerOpen] = useState(false)
 
