@@ -19,6 +19,8 @@ import type {
 
 import { CellSuccessProps, CellFailureProps, MetaTags } from '@redwoodjs/web'
 
+import DashboardBuilder from '../DashboardBuilder/DashboardBuilder'
+
 export const QUERY = gql`
   query FindDashboardQuery($id: String!) {
     dashboard: dashboard(id: $id) {
@@ -44,11 +46,13 @@ const DashboardHeader = ({
   editHandler,
   cancelHandler,
   saveHandler,
+  addGizmo,
 }: {
   dashboard: Dashboard
   editHandler?: Function
   cancelHandler?: Function
   saveHandler?: Function
+  addGizmo?: Function
 }) => {
   return (
     <>
@@ -56,35 +60,27 @@ const DashboardHeader = ({
 
       <Box sx={{ backgroundColor: 'white', height: 80, width: '100%' }}>
         <Grid container spacing={1}>
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <Typography variant="h5">{dashboard.name}</Typography>
             <Chip label={dashboard.key}></Chip>
           </Grid>
-          <Grid item xs={2} sx={{ mt: 1 }}>
-            <Stack
-              spacing={1}
-              direction="row"
-              sx={{ justifyContent: 'center' }}
-            >
-              {editHandler && (
+          <Grid item xs={3} sx={{ mt: 1 }}>
+            <Stack spacing={1} direction="row" sx={{ justifyContent: 'right' }}>
+              {addGizmo && (
                 <Button
                   variant="contained"
                   color="primary"
-                  size="large"
-                  fullWidth
                   onClick={() => {
-                    editHandler()
+                    addGizmo()
                   }}
                 >
-                  Edit
+                  Add Gizmo
                 </Button>
               )}
               {saveHandler && (
                 <Button
                   variant="contained"
                   color="primary"
-                  size="large"
-                  fullWidth
                   onClick={() => {
                     saveHandler()
                   }}
@@ -94,7 +90,6 @@ const DashboardHeader = ({
               )}
               {cancelHandler && (
                 <Button
-                  fullWidth
                   variant="contained"
                   color="error"
                   onClick={() => {
@@ -102,6 +97,18 @@ const DashboardHeader = ({
                   }}
                 >
                   Cancel
+                </Button>
+              )}
+              {editHandler && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ float: 'right' }}
+                  onClick={() => {
+                    editHandler()
+                  }}
+                >
+                  Edit
                 </Button>
               )}
             </Stack>
@@ -139,6 +146,8 @@ export const Success = ({
     setIsEditMode(false)
   }
 
+  const addGizmo = () => {}
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -150,11 +159,15 @@ export const Success = ({
         }}
       >
         {isEditMode ? (
-          <DashboardHeader
-            dashboard={dashboard}
-            saveHandler={saveHandler}
-            cancelHandler={cancelHandler}
-          />
+          <>
+            <DashboardHeader
+              dashboard={dashboard}
+              saveHandler={saveHandler}
+              cancelHandler={cancelHandler}
+              addGizmo={addGizmo}
+            />
+            <DashboardBuilder></DashboardBuilder>
+          </>
         ) : (
           <DashboardHeader dashboard={dashboard} editHandler={editHandler} />
         )}
