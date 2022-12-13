@@ -7,15 +7,26 @@ import {
   FormControl,
   FormHelperText,
   Input,
-  InputAdornment,
   InputLabel,
   TextField,
   Typography,
 } from '@mui/material'
 
+const CREATE = gql`
+  mutation CreateDashboardMutation($input: CreateDashboardInput!) {
+    createDashboard(input: $input) {
+      name
+      key
+    }
+  }
+`
+
+import { useMutation } from '@redwoodjs/web'
+
 const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
   const [dashboardName, setDashboardName] = useState('')
   const [dashboardKey, setDashboardKey] = useState('')
+  const [createDashboard, { loading, error }] = useMutation(CREATE)
 
   useEffect(() => {
     setDashboardKey(
@@ -50,7 +61,21 @@ const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
         <TextField label="Dashboard Key" disabled value={dashboardKey} />
       </FormControl>
       <ButtonGroup size="medium" fullWidth>
-        <Button variant="contained" color="primary" onClick={onSaveHandler}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            createDashboard({
+              variables: {
+                input: {
+                  name: dashboardName,
+                  key: dashboardKey,
+                },
+              },
+            })
+            onSaveHandler()
+          }}
+        >
           Save
         </Button>
         <Button variant="contained" color="error" onClick={onCancelHandler}>

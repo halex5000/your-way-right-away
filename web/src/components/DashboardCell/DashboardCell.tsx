@@ -6,8 +6,6 @@ import type {
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
-import DashboardsCell from '../DashboardsCell'
-
 export const QUERY = gql`
   query FindDashboardQuery($id: String!) {
     dashboard: dashboard(id: $id) {
