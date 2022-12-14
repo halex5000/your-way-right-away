@@ -1,10 +1,17 @@
-import GridLayout from 'react-grid-layout'
+import GridLayout, { Layout } from 'react-grid-layout'
 
-const DashboardBuilder = ({ layout, layoutChangeHandler }) => {
+type Props = {
+  layout: Layout[]
+  layoutChangeHandler: Function
+}
+
+const DashboardBuilder = ({ layout, layoutChangeHandler }: Props) => {
   return (
     <GridLayout
       layout={layout}
-      onLayoutChange={layoutChangeHandler}
+      onLayoutChange={(layout) => {
+        layoutChangeHandler()
+      }}
     ></GridLayout>
   )
 }

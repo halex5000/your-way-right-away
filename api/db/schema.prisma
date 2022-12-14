@@ -17,11 +17,13 @@ model Dashboard {
   name    String
   gizmos  Gizmo[]
 }
+
 model Gizmo {
-  id            String  @id @default(cuid())
+  id            String      @id @default(cuid())
   xCoordinate   Int
   yCoordinate   Int
   width         Int
   height        Int
-  dashboards    Dashboard[]
+  dashboard     Dashboard?   @relation(fields: [dashboardId], references: [id])
+  dashboardId   String?
 }

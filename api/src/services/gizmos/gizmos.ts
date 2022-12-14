@@ -39,7 +39,7 @@ export const deleteGizmo: MutationResolvers['deleteGizmo'] = ({ id }) => {
 }
 
 export const Gizmo: GizmoRelationResolvers = {
-  dashboards: (_obj, { root }) => {
-    return db.gizmo.findUnique({ where: { id: root?.id } }).dashboards()
+  dashboard: (_obj, { root }) => {
+    return db.gizmo.findUnique({ where: { id: root?.id } }).dashboard()
   },
 }

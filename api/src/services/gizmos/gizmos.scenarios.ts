@@ -5,18 +5,18 @@ export const standard = defineScenario<Prisma.GizmoCreateArgs>({
   gizmo: {
     one: {
       data: {
-        xCoordinate: 6680307,
-        yCoordinate: 3731019,
-        width: 225293,
-        height: 6077923,
+        xCoordinate: 5554669,
+        yCoordinate: 4319570,
+        width: 7142349,
+        height: 7265756,
       },
     },
     two: {
       data: {
-        xCoordinate: 8044044,
-        yCoordinate: 4859373,
-        width: 1310076,
-        height: 2917336,
+        xCoordinate: 126125,
+        yCoordinate: 5575367,
+        width: 3834131,
+        height: 7883777,
       },
     },
   },

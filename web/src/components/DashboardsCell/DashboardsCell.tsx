@@ -1,9 +1,18 @@
-import { Box, Grid } from '@mui/material'
+import {
+  Backdrop,
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material'
 import type { DashboardsQuery } from 'types/graphql'
 
+import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-
-import Dashboard from '../Dashboard/Dashboard'
 
 export const QUERY = gql`
   query DashboardsQuery {
@@ -15,9 +24,28 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => (
+  <Backdrop open={true}>
+    <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
+      <CircularProgress color="secondary" />
+      <CircularProgress color="success" />
+      <CircularProgress color="inherit" />
+    </Stack>
+  </Backdrop>
+)
 
-export const Empty = () => <div>Empty</div>
+export const Empty = () => (
+  <Box
+    component="main"
+    sx={{ height: '100%', width: '100%', justifyContent: 'center' }}
+  >
+    <Paper elevation={12}>
+      <Typography variant="h6" sx={{ alignContent: 'center' }}>
+        No dashboards yet, you should create one!!
+      </Typography>
+    </Paper>
+  </Box>
+)
 
 export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
@@ -25,7 +53,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ dashboards }: CellSuccessProps<DashboardsQuery>) => {
   return (
-    <Box component="main">
+    <Stack component="main" direction="column">
       {dashboards.map((dashboard) => {
         return (
           <Box
@@ -34,10 +62,47 @@ export const Success = ({ dashboards }: CellSuccessProps<DashboardsQuery>) => {
             margin={0.25}
             padding={2}
           >
-            <Dashboard key={dashboard.id} dashboard={dashboard}></Dashboard>
+            <Grid container>
+              <Grid item xs={2}>
+                <Stack direction="column">
+                  <Link to={routes.dashboard({ id: dashboard.id })}>
+                    <Typography>{dashboard.name}</Typography>
+                  </Link>
+                  <Chip label={dashboard.key}></Chip>
+                </Stack>
+              </Grid>
+              <Grid item xs={8}></Grid>
+              <Grid item xs={2}>
+                <Stack
+                  spacing={1}
+                  padding={2}
+                  direction="row"
+                  sx={{ justifyContent: 'center' }}
+                >
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    fullWidth
+                    onClick={async () => {}}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    fullWidth
+                    size="small"
+                    variant="contained"
+                    color="error"
+                    onClick={() => {}}
+                  >
+                    Delete
+                  </Button>
+                </Stack>
+              </Grid>
+            </Grid>
           </Box>
         )
       })}
-    </Box>
+    </Stack>
   )
 }

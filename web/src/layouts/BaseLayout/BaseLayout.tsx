@@ -22,6 +22,7 @@ import {
 import Image from 'mui-image'
 
 import { Link, navigate, routes } from '@redwoodjs/router'
+import { Toaster } from '@redwoodjs/web/dist/toast'
 
 import Search from 'src/components/Search/Search'
 
@@ -138,6 +139,7 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
             </List>
           </Box>
         </Drawer>
+        <Toaster />
         <>{children}</>
       </Box>
     </ThemeProvider>

@@ -1,13 +1,8 @@
-import { useState } from 'react'
-
 import {
   Box,
-  Button,
-  ButtonGroup,
   Chip,
   createTheme,
   Grid,
-  Stack,
   ThemeProvider,
   Typography,
 } from '@mui/material'
@@ -18,8 +13,6 @@ import type {
 } from 'types/graphql'
 
 import { CellSuccessProps, CellFailureProps, MetaTags } from '@redwoodjs/web'
-
-import DashboardBuilder from '../DashboardBuilder/DashboardBuilder'
 
 export const QUERY = gql`
   query FindDashboardQuery($id: String!) {
@@ -41,19 +34,11 @@ export const Failure = ({
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
 
-const DashboardHeader = ({
-  dashboard,
-  editHandler,
-  cancelHandler,
-  saveHandler,
-  addGizmo,
-}: {
+type DashboardHeaderProps = {
   dashboard: Dashboard
-  editHandler?: Function
-  cancelHandler?: Function
-  saveHandler?: Function
-  addGizmo?: Function
-}) => {
+}
+
+const DashboardHeader = ({ dashboard }: DashboardHeaderProps) => {
   return (
     <>
       <MetaTags title="Dashboard Page" description="Dashboard page" />
@@ -64,55 +49,7 @@ const DashboardHeader = ({
             <Typography variant="h5">{dashboard.name}</Typography>
             <Chip label={dashboard.key}></Chip>
           </Grid>
-          <Grid item xs={3} sx={{ mt: 1 }}>
-            <Stack spacing={1} direction="row" sx={{ justifyContent: 'right' }}>
-              {addGizmo && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    addGizmo()
-                  }}
-                >
-                  Add Gizmo
-                </Button>
-              )}
-              {saveHandler && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    saveHandler()
-                  }}
-                >
-                  Save
-                </Button>
-              )}
-              {cancelHandler && (
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => {
-                    cancelHandler()
-                  }}
-                >
-                  Cancel
-                </Button>
-              )}
-              {editHandler && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ float: 'right' }}
-                  onClick={() => {
-                    editHandler()
-                  }}
-                >
-                  Edit
-                </Button>
-              )}
-            </Stack>
-          </Grid>
+          <Grid item xs={3} sx={{ mt: 1 }}></Grid>
         </Grid>
       </Box>
     </>
@@ -131,26 +68,6 @@ export const Success = ({
     },
   })
 
-  const [isEditMode, setIsEditMode] = useState(false)
-  const [layout, setLayout] = useState()
-
-  const editHandler = () => {
-    setIsEditMode(true)
-  }
-
-  const saveHandler = () => {
-    console.log('saving stuff')
-    setIsEditMode(false)
-  }
-
-  const cancelHandler = () => {
-    setIsEditMode(false)
-  }
-
-  const addGizmo = () => {}
-
-  const layoutChangeHandler = () => {}
-
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -161,22 +78,7 @@ export const Success = ({
           width: '100%',
         }}
       >
-        {isEditMode ? (
-          <>
-            <DashboardHeader
-              dashboard={dashboard}
-              saveHandler={saveHandler}
-              cancelHandler={cancelHandler}
-              addGizmo={addGizmo}
-            />
-            <DashboardBuilder
-              layout={layout}
-              layoutChangeHandler={() => {}}
-            ></DashboardBuilder>
-          </>
-        ) : (
-          <DashboardHeader dashboard={dashboard} editHandler={editHandler} />
-        )}
+        <DashboardHeader dashboard={dashboard} />
       </Box>
     </ThemeProvider>
   )

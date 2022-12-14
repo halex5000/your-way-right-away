@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 
 import { MetaTags } from '@redwoodjs/web'
 
-import DashboardCell from 'src/components/DashboardCell'
+import Dashboard from 'src/components/Dashboard/Dashboard'
 
 type Props = {
   id: string
@@ -13,7 +13,7 @@ const DashboardPage = ({ id }: Props) => {
     <Box sx={{ mt: 7, width: '100%' }}>
       <MetaTags title="Dashboard" description="Dashboard page" />
 
-      <DashboardCell id={id} />
+      <Dashboard id={id} />
     </Box>
   )
 }

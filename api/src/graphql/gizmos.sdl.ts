@@ -5,12 +5,13 @@ export const schema = gql`
     yCoordinate: Int!
     width: Int!
     height: Int!
-    dashboards: [Dashboard]
+    dashboard: Dashboard!
+    dashboardId: String!
   }
 
   type Query {
-    gizmos: [Gizmo!]! @requireAuth
-    gizmo(id: String!): Gizmo @requireAuth
+    gizmos: [Gizmo!]! @skipAuth
+    gizmo(id: String!): Gizmo @skipAuth
   }
 
   input CreateGizmoInput {
@@ -18,7 +19,7 @@ export const schema = gql`
     yCoordinate: Int!
     width: Int!
     height: Int!
-    dashboards: [UpdateDashboardInput]
+    dashboardId: String!
   }
 
   input UpdateGizmoInput {
@@ -26,11 +27,12 @@ export const schema = gql`
     yCoordinate: Int
     width: Int
     height: Int
+    dashboardId: String
   }
 
   type Mutation {
-    createGizmo(input: CreateGizmoInput!): Gizmo! @requireAuth
-    updateGizmo(id: String!, input: UpdateGizmoInput!): Gizmo! @requireAuth
-    deleteGizmo(id: String!): Gizmo! @requireAuth
+    createGizmo(input: CreateGizmoInput!): Gizmo! @skipAuth
+    updateGizmo(id: String!, input: UpdateGizmoInput!): Gizmo! @skipAuth
+    deleteGizmo(id: String!): Gizmo! @skipAuth
   }
 `

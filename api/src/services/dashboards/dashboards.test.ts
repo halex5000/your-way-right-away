@@ -30,10 +30,10 @@ describe('dashboards', () => {
 
   scenario('creates a dashboard', async () => {
     const result = await createDashboard({
-      input: { key: 'String4141861', name: 'String' },
+      input: { key: 'String8364127', name: 'String' },
     })
 
-    expect(result.key).toEqual('String4141861')
+    expect(result.key).toEqual('String8364127')
     expect(result.name).toEqual('String')
   })
 
@@ -43,10 +43,10 @@ describe('dashboards', () => {
     })) as Dashboard
     const result = await updateDashboard({
       id: original.id,
-      input: { key: 'String45121162' },
+      input: { key: 'String90955202' },
     })
 
-    expect(result.key).toEqual('String45121162')
+    expect(result.key).toEqual('String90955202')
   })
 
   scenario('deletes a dashboard', async (scenario: StandardScenario) => {

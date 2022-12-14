@@ -8,7 +8,8 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/core": "3.5.0"
+    "@redwoodjs/core": "3.5.0",
+    "@types/react-grid-layout": "^1.3.2"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

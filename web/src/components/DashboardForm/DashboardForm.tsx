@@ -12,6 +12,8 @@ import {
   Typography,
 } from '@mui/material'
 
+import { toast } from '@redwoodjs/web/toast'
+
 const CREATE = gql`
   mutation CreateDashboardMutation($input: CreateDashboardInput!) {
     createDashboard(input: $input) {
@@ -27,6 +29,8 @@ import {
   CreateDashboardMutationVariables,
 } from 'types/graphql'
 
+import { QUERY as DashboardsQuery } from 'src/components/DashboardsCell'
+
 import { useMutation } from '@redwoodjs/web'
 
 const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
@@ -35,7 +39,10 @@ const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
   const [createDashboard, { dashboardLoading, dashboardError }] = useMutation<
     CreateDashboardMutation,
     CreateDashboardMutationVariables
-  >(CREATE)
+  >(CREATE, {
+    onCompleted: () => toast.success('Successfully created a new dashboard!!'),
+    refetchQueries: [{ query: DashboardsQuery }],
+  })
 
   useEffect(() => {
     setDashboardKey(
@@ -47,58 +54,60 @@ const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
   }, [dashboardName])
 
   return (
-    <Box sx={{ mt: 10, ml: 2, mr: 2 }} component="form">
-      <Typography variant="h5">Name your dashboard</Typography>
-      <FormControl margin="normal" fullWidth required>
-        <InputLabel htmlFor="dashboard-name">Dashboard Name</InputLabel>
-        <Input
-          id="dashboard-name"
-          aria-describedby="dashboard-name-helper-text"
-        />
-        <TextField
-          label="Dashboard Name"
-          value={dashboardName}
-          onChange={(event) => {
-            setDashboardName(event.target.value)
-          }}
-        />
-        <FormHelperText id="dashboard-name-helper-text">
-          {`This name can't be changed later`}
-        </FormHelperText>
-      </FormControl>
-      <FormControl margin="normal" fullWidth sx={{ mb: 2 }}>
-        <TextField label="Dashboard Key" disabled value={dashboardKey} />
-      </FormControl>
-      <Stack spacing={1} direction="row" sx={{ justifyContent: 'center' }}>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          fullWidth
-          onClick={async () => {
-            await createDashboard({
-              variables: {
-                input: {
-                  name: dashboardName,
-                  key: dashboardKey,
+    <>
+      <Box sx={{ mt: 10, ml: 2, mr: 2 }} component="form">
+        <Typography variant="h5">Name your dashboard</Typography>
+        <FormControl margin="normal" fullWidth required>
+          <InputLabel htmlFor="dashboard-name">Dashboard Name</InputLabel>
+          <Input
+            id="dashboard-name"
+            aria-describedby="dashboard-name-helper-text"
+          />
+          <TextField
+            label="Dashboard Name"
+            value={dashboardName}
+            onChange={(event) => {
+              setDashboardName(event.target.value)
+            }}
+          />
+          <FormHelperText id="dashboard-name-helper-text">
+            {`This name can't be changed later`}
+          </FormHelperText>
+        </FormControl>
+        <FormControl margin="normal" fullWidth sx={{ mb: 2 }}>
+          <TextField label="Dashboard Key" disabled value={dashboardKey} />
+        </FormControl>
+        <Stack spacing={1} direction="row" sx={{ justifyContent: 'center' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            fullWidth
+            onClick={async () => {
+              await createDashboard({
+                variables: {
+                  input: {
+                    name: dashboardName,
+                    key: dashboardKey,
+                  },
                 },
-              },
-            })
-            onSaveHandler()
-          }}
-        >
-          Save
-        </Button>
-        <Button
-          fullWidth
-          variant="contained"
-          color="error"
-          onClick={onCancelHandler}
-        >
-          Cancel
-        </Button>
-      </Stack>
-    </Box>
+              })
+              onSaveHandler()
+            }}
+          >
+            Save
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="error"
+            onClick={onCancelHandler}
+          >
+            Cancel
+          </Button>
+        </Stack>
+      </Box>
+    </>
   )
 }
 
