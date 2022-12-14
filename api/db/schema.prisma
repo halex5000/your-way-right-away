@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,11 +19,45 @@ model Dashboard {
 }
 
 model Gizmo {
-  id            String      @id @default(cuid())
+  id            String        @id @default(cuid())
   xCoordinate   Int
   yCoordinate   Int
   width         Int
   height        Int
-  dashboard     Dashboard?   @relation(fields: [dashboardId], references: [id])
+  title         String        @default("title")
+  contentId     Json
+  dashboard     Dashboard?    @relation(fields: [dashboardId], references: [id])
   dashboardId   String?
 }
+
+// model Attribute {
+//   id                      String @id @default(cuid())
+//   name                    String
+//   key                     String
+//   datapoint               DataPoint @relation(fields: [dataPointId], references: [id])
+//   dataPointId             String
+// }
+
+// model DataPoint {
+//   id                String @id @default(cuid())
+//   name              String
+//   key               String
+//   attributes        Attribute[]
+//   gizmoContents     GizmoContent[]
+// }
+
+// model GizmoContentAttributes {
+//   id                String @id @default(cuid())
+//   name              String
+//   key               String
+//   gizmoContent      GizmoContent @relation(fields: [gizmoContentId], references: [id])
+//   gizmoContentId    String
+// }
+
+// model GizmoContent {
+//   id                  String @id @default(cuid())
+//   dataPoint           DataPoint @relation(fields: [dataPointId], references: [id])
+//   dataPointId         String
+//   selectedAttributes  GizmoContentAttributes[]
+//   gizmoId             String
+// }

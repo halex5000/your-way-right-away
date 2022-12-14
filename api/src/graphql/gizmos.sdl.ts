@@ -5,12 +5,10 @@ export const schema = gql`
     yCoordinate: Int!
     width: Int!
     height: Int!
-    dashboard: Dashboard!
-    dashboardId: String!
   }
 
   type Query {
-    gizmos: [Gizmo!]! @skipAuth
+    gizmos(dashboardId: String!): [Gizmo!]! @skipAuth
     gizmo(id: String!): Gizmo @skipAuth
   }
 
