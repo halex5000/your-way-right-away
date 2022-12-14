@@ -132,6 +132,7 @@ export const Success = ({
   })
 
   const [isEditMode, setIsEditMode] = useState(false)
+  const [layout, setLayout] = useState()
 
   const editHandler = () => {
     setIsEditMode(true)
@@ -147,6 +148,8 @@ export const Success = ({
   }
 
   const addGizmo = () => {}
+
+  const layoutChangeHandler = () => {}
 
   return (
     <ThemeProvider theme={theme}>
@@ -166,7 +169,10 @@ export const Success = ({
               cancelHandler={cancelHandler}
               addGizmo={addGizmo}
             />
-            <DashboardBuilder></DashboardBuilder>
+            <DashboardBuilder
+              layout={layout}
+              layoutChangeHandler={() => {}}
+            ></DashboardBuilder>
           </>
         ) : (
           <DashboardHeader dashboard={dashboard} editHandler={editHandler} />

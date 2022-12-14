@@ -1,4 +1,8 @@
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type {
+  QueryResolvers,
+  MutationResolvers,
+  DashboardRelationResolvers,
+} from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
@@ -36,4 +40,10 @@ export const deleteDashboard: MutationResolvers['deleteDashboard'] = ({
   return db.dashboard.delete({
     where: { id },
   })
+}
+
+export const Dashboard: DashboardRelationResolvers = {
+  gizmos: (_obj, { root }) => {
+    return db.dashboard.findUnique({ where: { id: root?.id } }).gizmos()
+  },
 }

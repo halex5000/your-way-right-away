@@ -12,7 +12,16 @@ generator client {
 // to create migrations for them and apply to your dev DB.
 // TODO: Please remove the following example:
 model Dashboard {
-  id    String  @id @default(cuid())
-  key   String  @unique
-  name  String
+  id      String  @id @default(cuid())
+  key     String  @unique
+  name    String
+  gizmos  Gizmo[]
+}
+model Gizmo {
+  id            String  @id @default(cuid())
+  xCoordinate   Int
+  yCoordinate   Int
+  width         Int
+  height        Int
+  dashboards    Dashboard[]
 }

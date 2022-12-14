@@ -3,11 +3,12 @@ export const schema = gql`
     id: String!
     key: String!
     name: String!
+    gizmos: [Gizmo]
   }
 
   type Query {
-    dashboards: [Dashboard!]! @skipAuth
-    dashboard(id: String!): Dashboard @skipAuth
+    dashboards: [Dashboard!]! @requireAuth
+    dashboard(id: String!): Dashboard @requireAuth
   }
 
   input CreateDashboardInput {

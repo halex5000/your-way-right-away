@@ -21,6 +21,8 @@ import {
 } from '@mui/material'
 import Image from 'mui-image'
 
+import { Link, navigate, routes } from '@redwoodjs/router'
+
 import Search from 'src/components/Search/Search'
 
 type BaseLayoutProps = {
@@ -109,7 +111,11 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
             <Divider />
             <List>
               {[
-                { name: 'Dashboards', selected: true },
+                {
+                  name: 'Dashboards',
+                  selected: true,
+                  link: routes.dashboardlist(),
+                },
                 { name: 'Feature Flags', selected: false },
                 { name: 'Users', selected: false },
                 { name: 'Segments', selected: false },
@@ -118,9 +124,13 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
                 { name: 'Audit Log', selected: false },
                 { name: 'Integrations', selected: false },
                 { name: 'Account Settings', selected: false },
-              ].map(({ name, selected }) => (
+              ].map(({ name, selected, link }) => (
                 <ListItem key={name} disablePadding selected={selected}>
-                  <ListItemButton>
+                  <ListItemButton
+                    onClick={() => {
+                      if (link) navigate(link)
+                    }}
+                  >
                     <ListItemText primary={name} />
                   </ListItemButton>
                 </ListItem>

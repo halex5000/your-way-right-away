@@ -1,9 +1,8 @@
+/* eslint-disable import/order */
 import { useState, useEffect } from 'react'
-
 import {
   Box,
   Button,
-  ButtonGroup,
   FormControl,
   FormHelperText,
   Input,
@@ -18,16 +17,25 @@ const CREATE = gql`
     createDashboard(input: $input) {
       name
       key
+      id
     }
   }
 `
+
+import {
+  CreateDashboardMutation,
+  CreateDashboardMutationVariables,
+} from 'types/graphql'
 
 import { useMutation } from '@redwoodjs/web'
 
 const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
   const [dashboardName, setDashboardName] = useState('')
   const [dashboardKey, setDashboardKey] = useState('')
-  const [createDashboard, { loading, error }] = useMutation(CREATE)
+  const [createDashboard, { dashboardLoading, dashboardError }] = useMutation<
+    CreateDashboardMutation,
+    CreateDashboardMutationVariables
+  >(CREATE)
 
   useEffect(() => {
     setDashboardKey(
@@ -67,8 +75,8 @@ const DashboardForm = ({ onCancelHandler, onSaveHandler }) => {
           color="primary"
           size="large"
           fullWidth
-          onClick={() => {
-            createDashboard({
+          onClick={async () => {
+            await createDashboard({
               variables: {
                 input: {
                   name: dashboardName,

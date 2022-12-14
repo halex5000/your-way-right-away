@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Typography } from '@mui/material'
+import { Chip, Typography } from '@mui/material'
 
 import { Link, routes } from '@redwoodjs/router'
 
