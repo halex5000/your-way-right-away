@@ -25,7 +25,7 @@ model Gizmo {
   width         Int
   height        Int
   title         String        @default("title")
-  contentId     Json
+  content       Json          @default("{}")
   dashboard     Dashboard?    @relation(fields: [dashboardId], references: [id])
   dashboardId   String?
 }

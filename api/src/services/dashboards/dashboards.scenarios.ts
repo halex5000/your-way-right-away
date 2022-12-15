@@ -3,8 +3,8 @@ import type { ScenarioData } from '@redwoodjs/testing/api'
 
 export const standard = defineScenario<Prisma.DashboardCreateArgs>({
   dashboard: {
-    one: { data: { key: 'String7528573', name: 'String' } },
-    two: { data: { key: 'String9309180', name: 'String' } },
+    one: { data: { key: 'String4591434', name: 'String' } },
+    two: { data: { key: 'String5023882', name: 'String' } },
   },
 })
 

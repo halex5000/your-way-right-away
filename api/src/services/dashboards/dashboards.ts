@@ -13,6 +13,9 @@ export const dashboards: QueryResolvers['dashboards'] = () => {
 export const dashboard: QueryResolvers['dashboard'] = ({ id }) => {
   return db.dashboard.findUnique({
     where: { id },
+    include: {
+      gizmos: true,
+    },
   })
 }
 

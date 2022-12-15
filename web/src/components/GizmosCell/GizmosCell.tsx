@@ -11,12 +11,14 @@ import Gizmo from '../Gizmo/Gizmo'
 export const QUERY = gql`
   query GizmosQuery($dashboardId: String!) {
     gizmos(dashboardId: $dashboardId) {
+      # gizmos {
       id
       height
-      id
       width
       xCoordinate
       yCoordinate
+      title
+      content
     }
   }
 `
@@ -30,7 +32,6 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ gizmos }: CellSuccessProps<GizmosQuery>) => {
-  console.log('gizmos received:', gizmos)
   return (
     <Box minHeight="100%" width="100%" sx={{ backgroundColor: 'e6e6e6' }}>
       <ReactGridLayout width={1200} rowHeight={40} cols={24}>

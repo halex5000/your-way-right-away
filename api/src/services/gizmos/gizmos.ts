@@ -6,8 +6,12 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const gizmos: QueryResolvers['gizmos'] = () => {
-  return db.gizmo.findMany()
+export const gizmos: QueryResolvers['gizmos'] = ({ dashboardId }) => {
+  return db.gizmo.findMany({
+    where: {
+      dashboardId,
+    },
+  })
 }
 
 export const gizmo: QueryResolvers['gizmo'] = ({ id }) => {

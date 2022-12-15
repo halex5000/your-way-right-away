@@ -6,10 +6,12 @@ type GizmoProps = {
 }
 
 const Gizmo = ({ gizmo }: GizmoProps) => {
+  console.log(gizmo)
+  const { content, title } = gizmo
   return (
     <Card>
       <CardContent>
-        <Typography>{"Look at me, I'm a content"}</Typography>
+        <Typography variant="h5">{title}</Typography>
       </CardContent>
       <CardContent>
         <Typography>{"Look at me, I'm a content"}</Typography>

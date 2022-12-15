@@ -25,27 +25,27 @@ describe('gizmos', () => {
   scenario('creates a gizmo', async () => {
     const result = await createGizmo({
       input: {
-        xCoordinate: 5877733,
-        yCoordinate: 3248672,
-        width: 1733459,
-        height: 1888588,
+        xCoordinate: 3895951,
+        yCoordinate: 4466484,
+        width: 2385532,
+        height: 339428,
       },
     })
 
-    expect(result.xCoordinate).toEqual(5877733)
-    expect(result.yCoordinate).toEqual(3248672)
-    expect(result.width).toEqual(1733459)
-    expect(result.height).toEqual(1888588)
+    expect(result.xCoordinate).toEqual(3895951)
+    expect(result.yCoordinate).toEqual(4466484)
+    expect(result.width).toEqual(2385532)
+    expect(result.height).toEqual(339428)
   })
 
   scenario('updates a gizmo', async (scenario: StandardScenario) => {
     const original = (await gizmo({ id: scenario.gizmo.one.id })) as Gizmo
     const result = await updateGizmo({
       id: original.id,
-      input: { xCoordinate: 4462030 },
+      input: { xCoordinate: 1484480 },
     })
 
-    expect(result.xCoordinate).toEqual(4462030)
+    expect(result.xCoordinate).toEqual(1484480)
   })
 
   scenario('deletes a gizmo', async (scenario: StandardScenario) => {
