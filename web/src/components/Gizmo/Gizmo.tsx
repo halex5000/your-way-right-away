@@ -7,14 +7,17 @@ type GizmoProps = {
 
 const Gizmo = ({ gizmo }: GizmoProps) => {
   console.log(gizmo)
-  const { content, title } = gizmo
+  const { content: json, title } = gizmo
+
+  const content = JSON.parse(json)
+
   return (
-    <Card>
+    <Card sx={{ minHeight: '100%' }}>
       <CardContent>
         <Typography variant="h5">{title}</Typography>
       </CardContent>
       <CardContent>
-        <Typography>{"Look at me, I'm a content"}</Typography>
+        <Typography>{json}</Typography>
       </CardContent>
     </Card>
   )

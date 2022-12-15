@@ -34,7 +34,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 export const Success = ({ gizmos }: CellSuccessProps<GizmosQuery>) => {
   return (
     <Box minHeight="100%" width="100%" sx={{ backgroundColor: 'e6e6e6' }}>
-      <ReactGridLayout width={1200} rowHeight={40} cols={24}>
+      <ReactGridLayout width={1200} rowHeight={40} cols={12}>
         {gizmos.map((gizmo) => {
           const {
             id,
@@ -44,9 +44,19 @@ export const Success = ({ gizmos }: CellSuccessProps<GizmosQuery>) => {
             height: h,
           } = gizmo
           return (
-            <Paper key={id} data-grid={{ i: id, h, w, x, y }}>
+            <div
+              key={id}
+              data-grid={{
+                i: id,
+                h,
+                w,
+                x,
+                y,
+                resizeHandles: ['s', 'e', 'se', 'ne'],
+              }}
+            >
               <Gizmo gizmo={gizmo}></Gizmo>
-            </Paper>
+            </div>
           )
         })}
       </ReactGridLayout>
