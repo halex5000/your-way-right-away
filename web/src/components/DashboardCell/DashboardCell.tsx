@@ -1,3 +1,5 @@
+import { ReactChildren, ReactNode } from 'react'
+
 import {
   Box,
   Chip,
@@ -46,7 +48,7 @@ const DashboardHeader = ({ dashboard }: DashboardHeaderProps) => {
       <Box sx={{ backgroundColor: 'white', height: 80, width: '100%' }}>
         <Grid container spacing={1}>
           <Grid item xs={9}>
-            <Typography variant="h5">{dashboard.name}</Typography>
+            <Typography variant="h4">{dashboard.name}</Typography>
             <Chip label={dashboard.key}></Chip>
           </Grid>
           <Grid item xs={3} sx={{ mt: 1 }}></Grid>
@@ -78,7 +80,7 @@ export const Success = ({
           width: '100%',
         }}
       >
-        <DashboardHeader dashboard={dashboard} />
+        <DashboardHeader dashboard={dashboard}></DashboardHeader>
       </Box>
     </ThemeProvider>
   )

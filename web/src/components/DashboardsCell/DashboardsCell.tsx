@@ -51,7 +51,10 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
 
-export const Success = ({ dashboards }: CellSuccessProps<DashboardsQuery>) => {
+export const Success = ({
+  dashboards,
+  buttons,
+}: CellSuccessProps<DashboardsQuery>) => {
   return (
     <Stack component="main" direction="column">
       {dashboards.map((dashboard) => {

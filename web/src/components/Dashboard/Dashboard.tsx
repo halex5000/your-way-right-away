@@ -1,21 +1,26 @@
-import { Box, Card, Chip, Grid, Typography } from '@mui/material'
+import { ReactChildren } from 'react'
 
-import { Link, routes } from '@redwoodjs/router'
+import { Grid } from '@mui/material'
+import GridLines from 'react-gridlines'
 
 import DashboardCell from 'src/components/DashboardCell'
 import GizmosCell from 'src/components/GizmosCell'
 
 type Props = {
   id: string
+  buttons?: React.ReactNode
 }
 
-const Dashboard = ({ id }: Props) => {
+const Dashboard = ({ id, buttons }: Props) => {
   return (
-    <Grid container>
-      <Grid item xs={12}>
+    <Grid container height="90%">
+      <Grid item xs={9}>
         <DashboardCell id={id} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid sx={{ mt: 2, float: 'right' }} xs={3}>
+        {buttons}
+      </Grid>
+      <Grid item xs={12} height="100%">
         <GizmosCell dashboardId={id} />
       </Grid>
     </Grid>
