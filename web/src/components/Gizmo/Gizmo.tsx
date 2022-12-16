@@ -1,5 +1,4 @@
 import { Box, Grid, Paper, Typography } from '@mui/material'
-import { Resizable } from 're-resizable'
 import { Gizmo as GizmoType } from 'types/graphql'
 
 type GizmoProps = {
@@ -11,6 +10,7 @@ type GizmoProps = {
   onMouseUp?: any
   onTouchStart?: any
   onTouchEnd?: any
+  id: string
 }
 
 const Gizmo = ({
@@ -32,7 +32,6 @@ const Gizmo = ({
   // }
 
   return (
-    // <Resizable>
     <Paper
       sx={{ minHeight: '100%', minWidth: '100%' }}
       style={style}
@@ -42,7 +41,7 @@ const Gizmo = ({
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <Grid container>
+      <Grid container margin={1} spacing={1} padding={2}>
         <Grid item xs={12}>
           <Box>
             <Typography textAlign="center" variant="h5">
@@ -57,7 +56,6 @@ const Gizmo = ({
         </Grid>
       </Grid>
     </Paper>
-    // </Resizable>
   )
 }
 

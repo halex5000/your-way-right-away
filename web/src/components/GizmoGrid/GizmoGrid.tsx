@@ -1,10 +1,7 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { Box } from '@mui/material'
-import { Drag, raise } from '@visx/drag'
-import { getSeededRandom } from '@visx/mock-data'
-import { scaleOrdinal } from '@visx/scale'
-import { Circle, Polygon } from '@visx/shape'
+import { Resizable } from 're-resizable'
 import Draggable from 'react-draggable'
 import { Gizmo as GizmoType } from 'types/graphql'
 
@@ -15,72 +12,90 @@ type Props = {
   mode?: 'readonly' | 'editing'
 }
 
-const colors = [
-  '#025aac',
-  '#02cff9',
-  '#02efff',
-  '#03aeed',
-  '#0384d7',
-  '#edfdff',
-  '#ab31ff',
-  '#5924d7',
-  '#d145ff',
-  '#1a02b1',
-  '#e582ff',
-  '#ff00d4',
-  '#270eff',
-  '#827ce2',
-]
-
-export interface Circle {
-  id: string
-  radius: number
-  x: number
-  y: number
-}
-
-const generateCircles = ({
-  width,
-  height,
-}: {
-  width: number
-  height: number
-}) => {
-  const radiusRandom = getSeededRandom(0.2)
-  const xRandom = getSeededRandom(0.3)
-  const yRandom = getSeededRandom(0.4)
-
-  return new Array(width < 360 ? 40 : 185).fill(1).map((d, i) => {
-    const radius = 25 - radiusRandom() * 20
-    return {
-      id: `${i}`,
-      radius,
-      x: Math.round(xRandom() * (width - radius * 2) + radius),
-      y: Math.round(yRandom() * (height - radius * 2) + radius),
-    }
-  })
-}
-
 const GizmoGrid = ({ gizmos, mode }: Props) => {
   const [draggingGizmos, setDraggingGizmos] = useState(gizmos)
 
-  const [draggingItems, setDraggingItems] = useState<Circle[]>([])
+  console.log('mode', mode)
 
-  const width = 200
-  const height = 200
+  const onDrag = (event, data) => {
+    const newX = data.x
+    const newY = data.y
+    const nodeId = data.node.id
+    const id = nodeId.substring(nodeId.indexOf('-') + 1)
 
-  useEffect(() => {
-    if (width > 10 && height > 10)
-      setDraggingItems(generateCircles({ width, height }))
-  }, [width, height])
+    draggingGizmos.map((gizmo) => {
+      const tempGizmo = {
+        ...gizmo,
+      }
+      if (gizmo.id === id) {
+        tempGizmo.xCoordinate = newX
+        tempGizmo.yCoordinate = newY
+      }
+      return gizmo
+    })
+
+    setDraggingGizmos(draggingGizmos)
+  }
+
+  const onResize = (event, direction, element, delta) => {
+    console.log('event', event)
+    console.log('direction', direction)
+    console.log('element', element)
+    console.log('delta', delta)
+    const nodeId = element.id
+
+    console.log('node id', nodeId)
+
+    const id = nodeId.substring(nodeId.indexOf('-') + 1)
+
+    draggingGizmos.map((gizmo) => {
+      const tempGizmo = {
+        ...gizmo,
+      }
+      if (gizmo.id === id) {
+        tempGizmo.width = gizmo.width + delta.width
+        tempGizmo.yCoordinate = gizmo.height + delta.height
+      }
+      return gizmo
+    })
+    setDraggingGizmos(draggingGizmos)
+  }
+
+  const isEditable = mode === 'editing'
 
   return (
     <Box minHeight="100%" width="100%" sx={{ backgroundColor: '#e6e6e6' }}>
-      {draggingGizmos.map((gizmo, index) => (
-        <Draggable key={`draggable-${gizmo.id}`}>
-          <Gizmo gizmo={gizmo} index={index} />
-        </Draggable>
-      ))}
+      {draggingGizmos.map((gizmo, index) => {
+        return (
+          <Draggable
+            key={`resizable-${gizmo.id}`}
+            defaultPosition={{ x: gizmo.xCoordinate, y: gizmo.yCoordinate }}
+            onStop={onDrag}
+            disabled={!isEditable}
+          >
+            <Resizable
+              defaultSize={{
+                height: 200,
+                width: 200,
+              }}
+              id={`drag-${gizmo.id}`}
+              enable={{
+                top: isEditable,
+                right: isEditable,
+                bottom: isEditable,
+                left: isEditable,
+                topRight: isEditable,
+                bottomRight: isEditable,
+                bottomLeft: isEditable,
+                topLeft: isEditable,
+              }}
+              onResizeStop={onResize}
+            >
+              <Gizmo id={`resize-${gizmo.id}`} gizmo={gizmo} index={index} />
+            </Resizable>
+          </Draggable>
+        )
+      })}
     </Box>
   )
 }

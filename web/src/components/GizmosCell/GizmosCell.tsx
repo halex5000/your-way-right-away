@@ -27,5 +27,5 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ gizmos }: CellSuccessProps<GizmosQuery>) => {
-  return <GizmoGrid gizmos={gizmos} />
+  return <GizmoGrid gizmos={gizmos} mode="readonly" />
 }

@@ -96,7 +96,7 @@ const DashboardPage = ({ id }: Props) => {
 
       <Dashboard
         id={id}
-        mode={isEditMode ? 'readonly' : 'editing'}
+        mode={isEditMode ? 'editing' : 'readonly'}
         buttons={
           <Buttons
             isEditMode={isEditMode}
