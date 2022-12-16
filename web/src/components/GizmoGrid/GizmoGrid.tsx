@@ -1,21 +1,476 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Box } from '@mui/material'
+import Image from 'mui-image'
 import { Resizable } from 're-resizable'
 import Draggable from 'react-draggable'
 import { Gizmo as GizmoType } from 'types/graphql'
 
+import { useLocation } from '@redwoodjs/router'
+
 import Gizmo from '../Gizmo/Gizmo'
+
+import experimentationImage from './experimentation.png'
+import opsDashboard from './ops-dashboard.png'
 
 type Props = {
   gizmos: GizmoType[]
   mode?: 'readonly' | 'editing'
 }
 
-const GizmoGrid = ({ gizmos, mode }: Props) => {
-  const [draggingGizmos, setDraggingGizmos] = useState(gizmos)
+const henrysGizmos = [
+  {
+    id: '3456',
+    xCoordinate: 0,
+    yCoordinate: 0,
+    width: 490,
+    height: 395,
+    title: 'Evaluations Over Time',
+    content: JSON.stringify({
+      title: 'Evaluations Over Time',
+      evaluationData: [
+        {
+          name: 'Database Migration',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          evaluationTimeSeries: [],
+        },
+        {
+          name: 'API Version 2',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          evaluationTimeSeries: [],
+        },
+        {
+          name: 'Background Styling',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          evaluationTimeSeries: [],
+        },
+      ],
+    }),
+  },
+  {
+    id: '4567',
+    xCoordinate: 500,
+    yCoordinate: -385,
+    width: 1000,
+    height: 270,
+    title: 'Approval Requests',
+    content: JSON.stringify({
+      title: 'Approval Request',
+      listData: {
+        columns: [
+          { field: 'requestedBy', headerName: 'Requested By', width: 70 },
+          { field: 'dateRequested', headerName: 'Date Requested', width: 70 },
+          { field: 'featureFlag', headerName: 'Feature Flag', width: 70 },
+          { field: 'reason', headerName: 'Reason', width: 70 },
+          { field: 'change', headerName: 'Change', width: 70 },
+        ],
+        rows: [
+          {
+            requestedBy: 'Alex',
+            dateRequested: '12/25/2022',
+            featureFlag: 'Christmas Time',
+            reason: "It's Christmas Day",
+            change: 'turned on',
+          },
+          {
+            requestedBy: 'Munnawar',
+            dateRequested: '12/17/2022',
+            featureFlag: 'New User Interface',
+            reason: 'Releasing new UI to beta users',
+            change: 'Changed targeting rules on New UI',
+          },
+          {
+            requestedBy: 'Cody',
+            dateRequested: '12/19/2022',
+            featureFlag: 'Migration',
+            reason: 'Starting migration',
+            change: 'Migration rollout started at 10%',
+          },
+        ],
+      },
+    }),
+  },
+  {
+    id: '1234',
+    xCoordinate: 500,
+    yCoordinate: -370,
+    width: 1000,
+    height: 200,
+    title: 'Feature Flags List',
+    content: JSON.stringify({
+      title: 'Feature Flags List',
+      listData: {
+        columns: [
+          { field: 'name', headerName: 'Name', width: 70 },
+          { field: 'status', headerName: 'Status', width: 70 },
+          { field: 'evaluations', headerName: 'Evaluations', width: 70 },
+        ],
+        rows: [
+          {
+            name: 'Database Migration',
+            status: 'on',
+            totalEvaluations: 3920,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          },
+          {
+            name: 'API Version 2',
+            status: 'on',
+            totalEvaluations: 200,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          },
+          {
+            name: 'Background Styling',
+            status: 'off',
+            totalEvaluations: 15000,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          },
+        ],
+      },
+    }),
+  },
+  {
+    id: '2345',
+    xCoordinate: 500,
+    yCoordinate: -290,
+    width: 1000,
+    height: 270,
+    title: 'Audit Log',
+    content: JSON.stringify({
+      title: 'Audit Log',
+      listData: {
+        columns: [
+          { field: 'name', headerName: 'Name', width: 70 },
+          { field: 'change', headerName: 'Change', width: 70 },
+          { field: 'userName', headerName: 'User Name', width: 70 },
+        ],
+        rows: [
+          {
+            name: 'Database Migration',
+            change: 'turned on',
+            userName: 'Munnawar',
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          },
+          {
+            name: 'API Version 2',
+            change: 'turned on',
+            userName: 'Alex',
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          },
+          {
+            name: 'Background Styling',
+            change: 'changed targeting',
+            userName: 'Cody',
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          },
+        ],
+      },
+    }),
+  },
+]
 
-  console.log('mode', mode)
+const karishmasGizmos = [
+  {
+    id: '3456',
+    xCoordinate: 0,
+    yCoordinate: 0,
+    width: 490,
+    height: 395,
+    title: 'Evaluations Over Time',
+    content: JSON.stringify({
+      title: 'Evaluations Over Time',
+      evaluationData: [
+        {
+          name: 'Database Migration',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          evaluationTimeSeries: [],
+        },
+        {
+          name: 'API Version 2',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          evaluationTimeSeries: [],
+        },
+        {
+          name: 'Background Styling',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          evaluationTimeSeries: [],
+        },
+      ],
+    }),
+  },
+  {
+    id: '2345',
+    xCoordinate: 500,
+    yCoordinate: -385,
+    width: 900,
+    height: 270,
+    title: 'Audit Log',
+    content: JSON.stringify({
+      title: 'Experimentation Results',
+      image: {
+        src: experimentationImage,
+      },
+    }),
+  },
+  {
+    id: '4567',
+    xCoordinate: 500,
+    yCoordinate: -270,
+    width: 900,
+    height: 270,
+    title: 'Approval Requests',
+    content: JSON.stringify({
+      title: 'Approval Request',
+      listData: {
+        columns: [
+          { field: 'requestedBy', headerName: 'Requested By', width: 70 },
+          { field: 'dateRequested', headerName: 'Date Requested', width: 70 },
+          { field: 'featureFlag', headerName: 'Feature Flag', width: 70 },
+          { field: 'reason', headerName: 'Reason', width: 70 },
+          { field: 'change', headerName: 'Change', width: 70 },
+        ],
+        rows: [
+          {
+            requestedBy: 'Alex',
+            dateRequested: '12/25/2022',
+            featureFlag: 'Christmas Time',
+            reason: "It's Christmas Day",
+            change: 'turned on',
+          },
+          {
+            requestedBy: 'Munnawar',
+            dateRequested: '12/17/2022',
+            featureFlag: 'New User Interface',
+            reason: 'Releasing new UI to beta users',
+            change: 'Changed targeting rules on New UI',
+          },
+          {
+            requestedBy: 'Cody',
+            dateRequested: '12/19/2022',
+            featureFlag: 'Migration',
+            reason: 'Starting migration',
+            change: 'Migration rollout started at 10%',
+          },
+        ],
+      },
+    }),
+  },
+  {
+    id: '1234',
+    xCoordinate: 500,
+    yCoordinate: -250,
+    width: 900,
+    height: 200,
+    title: 'Feature Flags List',
+    content: JSON.stringify({
+      title: 'Feature Flags List',
+      listData: {
+        columns: [
+          { field: 'name', headerName: 'Name', width: 70 },
+          { field: 'status', headerName: 'Status', width: 70 },
+          { field: 'evaluations', headerName: 'Evaluations', width: 70 },
+        ],
+        rows: [
+          {
+            name: 'Database Migration',
+            status: 'on',
+            totalEvaluations: 3920,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          },
+          {
+            name: 'API Version 2',
+            status: 'on',
+            totalEvaluations: 200,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          },
+          {
+            name: 'Background Styling',
+            status: 'off',
+            totalEvaluations: 15000,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          },
+        ],
+      },
+    }),
+  },
+]
+
+let staticGizmos = [
+  {
+    id: '3456',
+    xCoordinate: 0,
+    yCoordinate: 0,
+    width: 490,
+    height: 395,
+    title: 'Evaluations Over Time',
+    content: JSON.stringify({
+      title: 'Evaluations Over Time',
+      evaluationData: [
+        {
+          name: 'Database Migration',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          evaluationTimeSeries: [],
+        },
+        {
+          name: 'API Version 2',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          evaluationTimeSeries: [],
+        },
+        {
+          name: 'Background Styling',
+          link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          evaluationTimeSeries: [],
+        },
+      ],
+    }),
+  },
+  {
+    id: '4567',
+    xCoordinate: 500,
+    yCoordinate: -385,
+    width: 1000,
+    height: 270,
+    title: 'Approval Requests',
+    content: JSON.stringify({
+      title: 'Approval Request',
+      listData: {
+        columns: [
+          { field: 'requestedBy', headerName: 'Requested By', width: 70 },
+          { field: 'dateRequested', headerName: 'Date Requested', width: 70 },
+          { field: 'featureFlag', headerName: 'Feature Flag', width: 70 },
+          { field: 'reason', headerName: 'Reason', width: 70 },
+          { field: 'change', headerName: 'Change', width: 70 },
+        ],
+        rows: [
+          {
+            requestedBy: 'Alex',
+            dateRequested: '12/25/2022',
+            featureFlag: 'Christmas Time',
+            reason: "It's Christmas Day",
+            change: 'turned on',
+          },
+          {
+            requestedBy: 'Munnawar',
+            dateRequested: '12/17/2022',
+            featureFlag: 'New User Interface',
+            reason: 'Releasing new UI to beta users',
+            change: 'Changed targeting rules on New UI',
+          },
+          {
+            requestedBy: 'Cody',
+            dateRequested: '12/19/2022',
+            featureFlag: 'Migration',
+            reason: 'Starting migration',
+            change: 'Migration rollout started at 10%',
+          },
+        ],
+      },
+    }),
+  },
+  {
+    id: '1234',
+    xCoordinate: 500,
+    yCoordinate: -370,
+    width: 1000,
+    height: 200,
+    title: 'Feature Flags List',
+    content: JSON.stringify({
+      title: 'Feature Flags List',
+      listData: {
+        columns: [
+          { field: 'name', headerName: 'Name', width: 70 },
+          { field: 'status', headerName: 'Status', width: 70 },
+          { field: 'evaluations', headerName: 'Evaluations', width: 70 },
+        ],
+        rows: [
+          {
+            name: 'Database Migration',
+            status: 'on',
+            totalEvaluations: 3920,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          },
+          {
+            name: 'API Version 2',
+            status: 'on',
+            totalEvaluations: 200,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          },
+          {
+            name: 'Background Styling',
+            status: 'off',
+            totalEvaluations: 15000,
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          },
+        ],
+      },
+    }),
+  },
+  {
+    id: '2345',
+    xCoordinate: 500,
+    yCoordinate: -290,
+    width: 1000,
+    height: 270,
+    title: 'Audit Log',
+    content: JSON.stringify({
+      title: 'Audit Log',
+      listData: {
+        columns: [
+          { field: 'name', headerName: 'Name', width: 70 },
+          { field: 'change', headerName: 'Change', width: 70 },
+          { field: 'userName', headerName: 'User Name', width: 70 },
+        ],
+        rows: [
+          {
+            name: 'Database Migration',
+            change: 'turned on',
+            userName: 'Munnawar',
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/dbinfo/targeting',
+          },
+          {
+            name: 'API Version 2',
+            change: 'turned on',
+            userName: 'Alex',
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/apidebug/targeting',
+          },
+          {
+            name: 'Background Styling',
+            change: 'changed targeting',
+            userName: 'Cody',
+            link: 'https://app.launchdarkly.com/ld-demo-booth/demo-1/features/bgstyle/targeting',
+          },
+        ],
+      },
+    }),
+  },
+]
+
+const GizmoGrid = ({ gizmos, mode }: Props) => {
+  const { pathname, search, hash } = useLocation()
+
+  // console.log('location information', { pathname, search, hash })
+
+  //todo get the last part of the pathname and do a lookup on which dashboard to show
+
+  const dashboardId = pathname.substring(pathname.lastIndexOf('/') + 1)
+
+  console.log('dashboard id', dashboardId)
+
+  const dashboards = {
+    clbp9x5jb0000wzrfnorm9dd0: karishmasGizmos,
+    clbqmpx8x00020j822m297wje: henrysGizmos,
+    clbpfr8fx0002wzvthlng6a2q: staticGizmos,
+    clbqmufun00060j82gv782cqf: 'ops',
+  }
+
+  const something = dashboards[dashboardId]
+
+  const [draggingGizmos, setDraggingGizmos] = useState(
+    something === 'ops' ? [] : something
+  )
+
+  useEffect(() => {
+    staticGizmos = [...draggingGizmos]
+  }, [draggingGizmos])
 
   const onDrag = (event, data) => {
     const newX = data.x
@@ -38,13 +493,7 @@ const GizmoGrid = ({ gizmos, mode }: Props) => {
   }
 
   const onResize = (event, direction, element, delta) => {
-    console.log('event', event)
-    console.log('direction', direction)
-    console.log('element', element)
-    console.log('delta', delta)
     const nodeId = element.id
-
-    console.log('node id', nodeId)
 
     const id = nodeId.substring(nodeId.indexOf('-') + 1)
 
@@ -54,7 +503,7 @@ const GizmoGrid = ({ gizmos, mode }: Props) => {
       }
       if (gizmo.id === id) {
         tempGizmo.width = gizmo.width + delta.width
-        tempGizmo.yCoordinate = gizmo.height + delta.height
+        tempGizmo.height = gizmo.height + delta.height
       }
       return gizmo
     })
@@ -65,37 +514,41 @@ const GizmoGrid = ({ gizmos, mode }: Props) => {
 
   return (
     <Box minHeight="100%" width="100%" sx={{ backgroundColor: '#e6e6e6' }}>
-      {draggingGizmos.map((gizmo, index) => {
-        return (
-          <Draggable
-            key={`resizable-${gizmo.id}`}
-            defaultPosition={{ x: gizmo.xCoordinate, y: gizmo.yCoordinate }}
-            onStop={onDrag}
-            disabled={!isEditable}
-          >
-            <Resizable
-              defaultSize={{
-                height: 200,
-                width: 200,
-              }}
-              id={`drag-${gizmo.id}`}
-              enable={{
-                top: isEditable,
-                right: isEditable,
-                bottom: isEditable,
-                left: isEditable,
-                topRight: isEditable,
-                bottomRight: isEditable,
-                bottomLeft: isEditable,
-                topLeft: isEditable,
-              }}
-              onResizeStop={onResize}
+      {draggingGizmos.length === 0 ? (
+        <Image src={opsDashboard} fit="cover" width="100%" />
+      ) : (
+        draggingGizmos.map((gizmo, index) => {
+          return (
+            <Draggable
+              key={`resizable-${gizmo.id}`}
+              defaultPosition={{ x: gizmo.xCoordinate, y: gizmo.yCoordinate }}
+              onStop={onDrag}
+              disabled={!isEditable}
             >
-              <Gizmo id={`resize-${gizmo.id}`} gizmo={gizmo} index={index} />
-            </Resizable>
-          </Draggable>
-        )
-      })}
+              <Resizable
+                defaultSize={{
+                  height: gizmo.height,
+                  width: gizmo.width,
+                }}
+                id={`drag-${gizmo.id}`}
+                enable={{
+                  top: isEditable,
+                  right: isEditable,
+                  bottom: isEditable,
+                  left: isEditable,
+                  topRight: isEditable,
+                  bottomRight: isEditable,
+                  bottomLeft: isEditable,
+                  topLeft: isEditable,
+                }}
+                onResizeStop={onResize}
+              >
+                <Gizmo id={`resize-${gizmo.id}`} gizmo={gizmo} index={index} />
+              </Resizable>
+            </Draggable>
+          )
+        })
+      )}
     </Box>
   )
 }

@@ -73,8 +73,6 @@ const DashboardListHeader = ({ createDashboardHandler }) => {
 }
 
 const DashboardListPage = () => {
-
-
   const [dashboardDrawerOpen, setDashboardDrawerOpen] = useState(false)
 
   const toggleDashboardDrawer = () => {

@@ -26,6 +26,8 @@ import { Toaster } from '@redwoodjs/web/dist/toast'
 
 import Search from 'src/components/Search/Search'
 
+import logo from './primary-lockup-white.png'
+
 type BaseLayoutProps = {
   children?: React.ReactNode
 }
@@ -62,11 +64,7 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
           <Toolbar variant="dense">
             <Grid container>
               <Grid item xs={5}>
-                <Image
-                  src="primary-lockup-white.png"
-                  fit="contain"
-                  width={150}
-                />
+                <Image src={logo} fit="contain" width={150} />
               </Grid>
               <Grid item xs={4}>
                 <Search placeholder="Search…"></Search>
