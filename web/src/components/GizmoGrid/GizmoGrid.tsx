@@ -456,10 +456,10 @@ const GizmoGrid = ({ gizmos, mode }: Props) => {
   console.log('dashboard id', dashboardId)
 
   const dashboards = {
-    clbp9x5jb0000wzrfnorm9dd0: karishmasGizmos,
-    clbqmpx8x00020j822m297wje: henrysGizmos,
-    clbpfr8fx0002wzvthlng6a2q: staticGizmos,
-    clbqmufun00060j82gv782cqf: 'ops',
+    clbqowzn100000j8d0a3u7z5y: karishmasGizmos,
+    clbqox85o00020j8d9euasf2u: henrysGizmos,
+    clbqoxfpn00040j8d7m0z2ocm: staticGizmos,
+    clbqoxlzu00060j8d945h2rk2: 'ops',
   }
 
   const something = dashboards[dashboardId]
